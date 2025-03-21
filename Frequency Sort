@@ -1,0 +1,34 @@
+import java.util.HashMap;
+
+public class FrequencySort {
+    public int[] sortedArray(int arr[]){
+
+        HashMap<Integer, Integer> hM = new HashMap<Integer, Integer>();
+        int prev = 0, j = 0;
+        int res[] = new int[arr.length];
+
+        for(int x : arr) {
+            hM.put(x, hM.getOrDefault(x, 0)+1);
+            prev = Math.max(prev, hM.get(x));
+        }
+
+        System.out.println(prev);
+
+        int n = prev;
+        for(int x : hM.keySet()) {
+            for(int k=0; k<hM.get(x); k++) {
+                System.out.println(j+" "+x);
+                res[j++] = x;
+            }
+        }
+            
+        return res;
+    }
+    public static void main(String[] args) {
+        FrequencySort obj = new FrequencySort();
+        int arr[] = {5, 4, 5, 6, 4, 3, 3, 3, 8, 7};
+        int res[] = obj.sortedArray(arr);
+        for(int x : res)
+            System.out.print(x+" ");
+    }
+}
