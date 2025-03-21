@@ -1,0 +1,30 @@
+public class SplittheArray {
+    public int partitionIndex (int[] arr) {
+        int first = arr[0];
+        int second = 0;
+        for(int i=1; i<arr.length; i++) {
+            second += arr[i];
+        }
+        if(first == second) {
+            return 1;
+        }
+        for(int i=1; i<arr.length-1; i++) {
+            System.out.println(i);
+            second -= arr[i];
+            System.out.println(first+" "+second);
+            if(first == second) {
+                return i;
+            }
+            else {
+                first += arr[i];
+            }
+            //System.out.println(first+" "+second);
+        }
+        return -1;
+    }
+    public static void main(String[] args) {
+        SplittheArray obj = new SplittheArray();
+        int arr[] = {7, 1, 5, 3, 6, 7, 9};
+        System.out.println(obj.partitionIndex(arr));
+    }
+}
