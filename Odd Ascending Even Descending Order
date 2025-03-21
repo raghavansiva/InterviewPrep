@@ -1,0 +1,47 @@
+public class SortInSpecificOrder {
+    public int[] sortedOrder (int nums[]) {
+        int left = 0, right = nums.length-1, mid=0;
+        while(left <= right){
+            if(nums[left]%2==1)
+                left++;
+            else if(nums[right]%2==0)
+                right--;
+            else {
+                int temp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = temp;
+                left++;
+                right--;
+            }
+            mid = left;
+        } 
+        if(nums[mid]%2==0)
+            mid--;
+        for(int i=0; i<mid; i++){
+            for(int j=0; j<mid-i; j++){
+                if(nums[j]<nums[j+1]){
+                    int temp = nums[j];
+                    nums[j] = nums[j+1];
+                    nums[j+1] = temp;
+                }
+            }
+        }
+        for(int i=mid+1; i<nums.length; i++){
+            for(int j=mid+1; j<nums.length-1; j++){
+                if(nums[j]>nums[j+1]){
+                    int temp = nums[j];
+                    nums[j] = nums[j+1];
+                    nums[j+1] = temp;
+                }
+            }
+        }
+        return nums;
+    }
+    public static void main(String[] args) {
+        SortInSpecificOrder obj = new SortInSpecificOrder();
+        int arr[] = {0, 4, 5, 3, 7, 2, 1};
+        int res[] = obj.sortedOrder(arr);
+        for(int i : res)
+            System.out.println(i+" ");
+    }
+}
