@@ -1,0 +1,24 @@
+import java.util.*;
+class RemoveDuplicate1 {
+    public int[] duplicatesRemoved (int nums[]) {
+        HashSet<Integer> set = new HashSet<Integer>();
+        for(int i=0; i<nums.length; i++) {
+            int len = String.valueOf(nums[i]).length();
+            for(int j=1; j<=len; j++) {
+                set.add((int)(nums[i]/Math.pow(10, len-j))%10);
+            }
+        }
+        int val = 0;
+        int arr[] = new int[set.size()];
+        for(int x : set)
+            arr[val++] = x;
+        return arr;
+    }
+    public static void main(String[] args) {
+        RemoveDuplicate1 obj = new RemoveDuplicate1();
+        int arr[] = {131, 11, 48};
+        int nums[] = obj.duplicatesRemoved(arr);
+        for(int x : nums)
+            System.out.print(x+" ");
+    }
+}
