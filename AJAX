@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SPA with AJAX (No Backend)</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    nav a { margin-right: 10px; cursor: pointer; color: blue; }
+    #content { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a onclick="loadPage('home.html')">Home</a>
+    <a onclick="loadPage('about.html')">About</a>
+    <a onclick="loadPage('contact.html')">Contact</a>
+  </nav>
+
+  <div id="content">Welcome! Click a link above.</div>
+
+  <script>
+    function loadPage(page) {
+      fetch(page)
+        .then(response => {
+          if (!response.ok) throw new Error("Page not found");
+          return response.text();
+        })
+        .then(html => {
+          document.getElementById('content').innerHTML = html;
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = '<p>Error loading content.</p>';
+        });
+    }
+  </script>
+
+</body>
+</html>
