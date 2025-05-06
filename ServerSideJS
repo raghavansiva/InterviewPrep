@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Simple Student Result Viewer</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    margin: 0;
+    padding: 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  h1 {
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  .container {
+    background: rgba(255,255,255,0.15);
+    width: 100%;
+    max-width: 350px;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+  label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  button {
+    width: 100%;
+    padding: 0.65rem;
+    background: #ff6f61;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #e56057;
+  }
+  .result {
+    margin-top: 1rem;
+    background: rgba(0,0,0,0.25);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .result h2 {
+    margin: 0 0 0.5rem 0;
+  }
+  .result p {
+    margin: 0.2rem 0;
+    font-size: 1.05rem;
+  }
+  .pass {
+    color: #4caf50;
+    font-weight: 700;
+  }
+  .fail {
+    color: #e53935;
+    font-weight: 700;
+  }
+  @media (max-width: 400px) {
+    .container {
+      max-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <h1>Student Result Viewer</h1>
+  <div class="container">
+    <label for="username">Enter Student Name</label>
+    <input type="text" id="username" placeholder="Type student name here" autocomplete="off" />
+    <button id="viewResultBtn">View Result</button>
+    <div id="resultDisplay" class="result" aria-live="polite"></div>
+  </div>
+
+<script>
+  // Predefined student data
+  const students = [
+    { name: 'Alice', marks1: 78, marks2: 85, marks3: 69 },
+    { name: 'Bob', marks1: 45, marks2: 32, marks3: 50 },
+    { name: 'Charlie', marks1: 90, marks2: 88, marks3: 92 },
+    { name: 'David', marks1: 33, marks2: 40, marks3: 29 },
+    { name: 'Eve', marks1: 70, marks2: 75, marks3: 80 }
+  ];
+
+  const usernameInput = document.getElementById('username');
+  const viewResultBtn = document.getElementById('viewResultBtn');
+  const resultDisplay = document.getElementById('resultDisplay');
+
+  function calculateResult(student) {
+    const total = student.marks1 + student.marks2 + student.marks3;
+    const pass = student.marks1 >= 35 && student.marks2 >= 35 && student.marks3 >= 35;
+    return { total, pass };
+  }
+
+  function showResult(student) {
+    const { total, pass } = calculateResult(student);
+    resultDisplay.innerHTML = `
+      <h2>Result for ${student.name}</h2>
+      <p>Subject 1: ${student.marks1}</p>
+      <p>Subject 2: ${student.marks2}</p>
+      <p>Subject 3: ${student.marks3}</p>
+      <p><strong>Total:</strong> ${total}</p>
+      <p><strong>Result:</strong> <span class="${pass ? 'pass' : 'fail'}">${pass ? 'Pass' : 'Fail'}</span></p>
+    `;
+  }
+
+  function showNotFound() {
+    resultDisplay.innerHTML = `<p>Student not found. Please check the name and try again.</p>`;
+  }
+
+  viewResultBtn.addEventListener('click', () => {
+    const inputName = usernameInput.value.trim().toLowerCase();
+    if (!inputName) {
+      resultDisplay.textContent = 'Please enter a student name.';
+      return;
+    }
+
+    const foundStudent = students.find(s => s.name.toLowerCase() === inputName);
+
+    if (foundStudent) {
+      showResult(foundStudent);
+    } else {
+      showNotFound();
+    }
+  });
+
+  // Optionally allow pressing Enter to submit
+  usernameInput.addEventListener('keydown', e => {
+    if(e.key === 'Enter') {
+      viewResultBtn.click();
+    }
+  });
+</script>
+</body>
+</html>
